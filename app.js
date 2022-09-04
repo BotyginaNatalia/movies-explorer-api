@@ -38,11 +38,7 @@ app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/moviesdb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+mongoose.connect('mongodb://127.0.0.1:27017/moviesdb');
 
 app.get('/crash-test', () => {
   setTimeout(() => {
