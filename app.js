@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, Segments } = require('celebrate');
 const helmet = require('helmet');
 const { login, createNewUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -14,6 +14,7 @@ const limiter = require('./middlewares/rate-limiter');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+app.use(express.json());
 app.use(helmet());
 
 const corsOptions = {
@@ -57,7 +58,7 @@ app.post('/signin', celebrate({
 app.post(
   '/signup',
   celebrate({
-    body: Joi.object().keys({
+    [Segments.BODY]: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
@@ -85,4 +86,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(PORT);
+app.listen(PORT, '130.193.36.116');
