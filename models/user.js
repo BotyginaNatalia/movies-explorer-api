@@ -15,12 +15,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: validator.isEmail,
-      message: '{VALUE} is not a valid email',
-      isAsync: false,
+      validator(email) {
+        return validator.isEmail(email);
+      },
     },
   },
-
   password: {
     type: String,
     required: true,
@@ -30,7 +29,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.hashPass = async (password) => bcrypt.hashSync(password, 5);
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
