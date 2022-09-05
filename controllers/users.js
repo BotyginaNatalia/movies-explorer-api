@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const helmet = require('helmet');
 const User = require('../models/user');
 const { BadRequestErr } = require('../errors/BadRequestErr');
 const { InternalErr } = require('../errors/InternalErr');
