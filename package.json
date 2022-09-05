@@ -34,6 +34,7 @@
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^8.5.1",
     "limiter": "^2.1.0",
+    "mongodb": "^4.9.1",
     "mongoose": "^6.5.4",
     "validator": "^13.7.0",
     "winston": "^3.8.1"
@@ -44,6 +45,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.5",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "nodemon": "^2.0.19"
   }
 }
