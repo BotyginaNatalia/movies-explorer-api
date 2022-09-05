@@ -15,11 +15,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator(email) {
-        return validator.isEmail(email);
-      },
+      validator: validator.isEmail,
+      message: '{VALUE} is not a valid email',
+      isAsync: false,
     },
   },
+
   password: {
     type: String,
     required: true,
