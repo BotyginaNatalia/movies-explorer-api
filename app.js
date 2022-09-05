@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
-const { celebrate, Joi, Segments } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const helmet = require('helmet');
 const { login, createNewUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -58,7 +58,7 @@ app.post('/signin', celebrate({
 app.post(
   '/signup',
   celebrate({
-    [Segments.BODY]: Joi.object().keys({
+    body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
