@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { BadRequestErr } = require('../errors/BadRequestErr');
-const { InternalErr } = require('../errors/InternalErr');
 const { NotFoundErr } = require('../errors/NotFoundErr');
 const { ConflictErr } = require('../errors/ConflictErr');
 const { Created } = require('../errors/Created');
@@ -13,7 +12,7 @@ module.exports.getUser = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     res.send(user);
   } catch (error) {
-    next(new InternalErr('Произошла ошибка на сервере'));
+    next(new ConflictErr('Пользователь с данным email уже существует'));
   }
 };
 
@@ -50,7 +49,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        next(BadRequestErr('Введены некорректные данные'));
+        next(new BadRequestErr('Введены некорректные данные'));
       } else {
         next(error);
       }
