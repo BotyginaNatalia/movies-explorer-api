@@ -10,7 +10,7 @@ const { NotFoundErr } = require('./errors/NotFoundErr');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rate-limiter');
 
-const PORT = process.env.PORT || 3000;
+const { PORT = 3000, NODE_ENV, SERVER_DB } = process.env;
 const app = express();
 app.use(express.json());
 app.use(helmet());
@@ -37,7 +37,7 @@ app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/moviesdb');
+mongoose.connect(NODE_ENV === 'production' ? SERVER_DB : 'mongodb://127.0.0.1:27017/moviesdb');
 
 app.get('/crash-test', () => {
   setTimeout(() => {
