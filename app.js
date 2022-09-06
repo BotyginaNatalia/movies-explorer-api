@@ -37,7 +37,7 @@ app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(NODE_ENV === 'production' ? SERVER_DB : 'mongodb://127.0.0.1:27017/moviesdb');
+mongoose.connect(NODE_ENV === 'production' ? SERVER_DB : 'mongodb://localhost:27017/moviesdb');
 
 app.get('/crash-test', () => {
   setTimeout(() => {
