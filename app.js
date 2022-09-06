@@ -4,9 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
-const { celebrate, Joi } = require('celebrate');
 const helmet = require('helmet');
-const { login, createNewUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { NotFoundErr } = require('./errors/NotFoundErr');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -47,29 +45,12 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required(),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
-
-app.post(
-  '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-    }),
-  }),
-  createNewUser,
-);
+app.use(require('./routes/common'));
 
 app.use(auth);
 
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
+app.use(require('./routes/users'));
+app.use(require('./routes/movies'));
 
 app.use((req, res, next) => {
   next(new NotFoundErr('Маршрут не найден'));
