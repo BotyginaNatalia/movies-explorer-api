@@ -26,9 +26,9 @@ module.exports.createNewMovie = async (req, res, next) => {
       trailerLink: req.body.trailerLink,
       thumbnail: req.body.thumbnail,
       owner: req.user._id,
-      movieId: req.movie._id,
-      nameRU: req.body.name,
-      nameENG: req.body.name,
+      movie: req.body.movieId,
+      nameRU: req.body.nameRU,
+      nameEN: req.body.nameEN,
     });
     await movie.save();
     res.status(Created).send(movie);
@@ -43,13 +43,13 @@ module.exports.createNewMovie = async (req, res, next) => {
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
-    .orFail(new NotFoundErr('Карточка с данным id не найдена'))
+    .orFail(new NotFoundErr('Фильм с данным id не найден'))
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
-        return next(new ForbiddenErr('Нельзя удалить чужую карточку'));
+        return next(new ForbiddenErr('Нельзя удалить чужой фильм'));
       }
       return movie.remove()
-        .then(() => res.send({ message: 'Карточка успешно удалена' }));
+        .then(() => res.send({ message: 'Фильм успешно удален' }));
     })
     .catch(next);
 };
