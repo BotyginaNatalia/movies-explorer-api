@@ -26,7 +26,7 @@ module.exports.createNewMovie = async (req, res, next) => {
       trailerLink: req.body.trailerLink,
       thumbnail: req.body.thumbnail,
       owner: req.user._id,
-      movie: req.body.movieId,
+      movieId: req.body.movieId,
       nameRU: req.body.nameRU,
       nameEN: req.body.nameEN,
     });
