@@ -4,9 +4,9 @@ const {
   getMovies, createNewMovie, deleteMovie,
 } = require('../controllers/movies');
 
-router.get('/', getMovies);
+router.get('/movies', getMovies);
 
-router.post('/', celebrate({
+router.post('/movies', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -16,6 +16,7 @@ router.post('/', celebrate({
     image: Joi.string().required().regex(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\\+\\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\\+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/),
     trailerLink: Joi.string().required().regex(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\\+\\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\\+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/),
     thumbnail: Joi.string().required().regex(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\\+\\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\\+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/),
+    owner: Joi.string().length(24).hex().required(),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
@@ -23,7 +24,7 @@ router.post('/', celebrate({
 }), createNewMovie);
 
 router.delete(
-  '/:movieId',
+  '/movies/:movieId',
   celebrate({
     params: Joi.object().keys({
       movieId: Joi.string().length(24).hex().required(),
