@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const auth = require('./middlewares/auth');
 const { NotFoundErr } = require('./errors/NotFoundErr');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rate-limiter');
@@ -45,12 +44,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(require('./routes/common'));
-
-app.use(auth);
-
-app.use(require('./routes/users'));
-app.use(require('./routes/movies'));
+app.use(require('./routes/index'));
 
 app.use((req, res, next) => {
   next(new NotFoundErr('Маршрут не найден'));
