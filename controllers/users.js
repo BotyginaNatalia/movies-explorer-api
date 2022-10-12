@@ -63,24 +63,10 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'default-secret-secret',
-        { expiresIn: '30d' },
-      );
-      res
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-          sameSite: true,
-        })
-        .send({ token });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'default-secret-secret', { expiresIn: '30d' });
+      return res.send({ token });
     })
     .catch((error) => {
       next(error);
     });
-};
-
-module.exports.logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Пользователь успешно вышел из приложени' });
 };

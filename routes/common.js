@@ -21,6 +21,4 @@ router.post(
   createNewUser,
 );
 
-router.post('/signout', logout);
-
 module.exports = router;
