@@ -26,7 +26,9 @@ const corsOptions = {
     'https://localhost:3001',
   ],
   optionsSuccessStatus: 200,
-  methods: 'GET, PUT, POST, DELETE, PATCH, OPTIONS',
+  methods: ['GET, PUT, POST, DELETE, PATCH, OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Origin', 'Referer', 'Accept', 'Authorization'],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
