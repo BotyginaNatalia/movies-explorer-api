@@ -7,7 +7,7 @@ const { Created } = require('../errors/Created');
 
 module.exports.getMovies = async (req, res, next) => {
   try {
-    const movie = await Movie.find({});
+    const movie = await Movie.find({ owner: req.user._id });
     res.send(movie);
   } catch (error) {
     next(new InternalErr('Произошла ошибка на сервере'));
