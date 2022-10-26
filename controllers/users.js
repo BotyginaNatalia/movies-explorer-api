@@ -43,7 +43,7 @@ module.exports.createNewUser = async (req, res, next) => {
 module.exports.updateUserInfo = (req, res, next) => {
   const userInfo = req.user._id;
   const { name, email } = req.body;
-  User.findByIdAndUpdate(userInfo, { name, email }, { new: true, runValidators: true })
+  return User.findByIdAndUpdate(userInfo, { name, email }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) next(new NotFoundErr('Пользователь с указанным id не найден'));
       return res.send(user);
