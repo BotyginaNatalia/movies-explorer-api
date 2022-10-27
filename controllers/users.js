@@ -70,7 +70,3 @@ module.exports.login = (req, res, next) => {
       next(error);
     });
 };
-
-module.exports.logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Вы успешно вышли из приложения' });
-};
