@@ -14,16 +14,31 @@ module.exports.getMovies = async (req, res, next) => {
   }
 };
 
-module.exports.createNewMovie = (req, res, next) => {
-  const owner = req.user._id;
-  Movie.create({ owner, ...req.body })
-    .then((movie) => res.status(Created).send(movie))
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        next(new BadRequestErr('Введены некорректные данные'));
-      }
-      next(error);
+module.exports.createNewMovie = async (req, res, next) => {
+  try {
+    const movie = new Movie({
+      country: req.body.country,
+      director: req.body.director,
+      duration: req.body.duration,
+      year: req.body.year,
+      description: req.body.description,
+      image: req.body.image,
+      trailerLink: req.body.trailerLink,
+      thumbnail: req.body.thumbnail,
+      owner: req.user._id,
+      movieId: req.body.movieId,
+      nameRU: req.body.nameRU,
+      nameEN: req.body.nameEN,
     });
+    await movie.save();
+    res.status(Created).send(movie);
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      next(new BadRequestErr('Введены некорректные данные'));
+    } else {
+      next(error);
+    }
+  }
 };
 
 module.exports.deleteMovie = (req, res, next) => {
@@ -33,8 +48,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (!movie.owner.equals(req.user._id)) {
         return next(new ForbiddenErr('Нельзя удалить чужой фильм'));
       }
-      return movie
-        .remove()
+      return movie.remove()
         .then(() => res.send({ message: 'Фильм успешно удален' }));
     })
     .catch(next);
